@@ -16,7 +16,6 @@ services:
       REDIS_HOST: cache
     restart: always
     links:
-      - postgres
       - cache
 
 
