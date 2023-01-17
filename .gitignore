@@ -5,7 +5,6 @@ env/
 venv/
 ENV/
 .DS_Store
-test.py
 test.txt
 test.json
 users.db
@@ -15,3 +14,6 @@ users.db
 log.log
 data/phone_data/
 data/cache/
+data/postgresql/
+test/add_db.py
+test/data_db.json

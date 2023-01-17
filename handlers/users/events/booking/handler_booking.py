@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import datetime
 
 import aiohttp
@@ -34,6 +35,8 @@ async def control_book(call: CallbackQuery, callback_data: dict, state: FSMConte
 
 @dp.message_handler(state=Booking.lot_number)
 async def lot_number(message: types.Message, state: FSMContext):
+    if not re.match(r'^\d+$', message.text):
+        return await message.answer(text='Номер введен не верно!\nВведите цифровое значение')
     await state.reset_state(with_data=False)
 
     await state.update_data(lot=message.text.split(','))

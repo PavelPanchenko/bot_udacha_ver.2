@@ -12,7 +12,6 @@ from api.services.inform_service import get_information
 from loader import bot, dp
 from settings.config import settings
 from settings.notify_admins import on_startup_notify
-from test import save_to_db
 from utils.logger import logger
 import handlers
 
@@ -35,8 +34,6 @@ async def on_startup():
         await database_.connect()
 
     # await get_information()
-
-    # await save_to_db()
 
     middlewares.setup(dp)
     await on_startup_notify(dp)
@@ -79,9 +76,3 @@ async def on_shutdown():
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=settings.PORT, use_colors=True)
 
-
-# Замечания
-# 1. Работа с клиентом, клиент не найден - показывать ли кнопки?
-# И почему при повторном контакте клиент найден, но не ваш
-
-# Предложение: Упростить команду check

@@ -23,13 +23,14 @@ async def price(message: Message, state: FSMContext):
 
 @dp.callback_query_handler(callback_data_btn.filter(action='get_price'))
 async def check_price(call: CallbackQuery, callback_data: dict):
-    village = callback_data.get('payload')
+    village = callback_data.get('payload').strip().title()
     time = datetime.now().timestamp()
 
     await call.message.answer_chat_action(action=ChatActions.TYPING)
     url = f'https://www.ydacha.ru/poselki/printtable.php?name={village}&t={time}'
 
     await call.message.edit_text('Обработка данных.\nПодождите немного...')
+    print(url)
     try:
         file_content = requests.get(url).content
         await call.message.answer_document(document=(f'{village}.pdf', BytesIO(file_content)))

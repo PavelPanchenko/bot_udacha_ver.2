@@ -1,21 +1,6 @@
 version: '3.5'
 
 services:
-  
-  postgres:
-    image: postgres:14.3-alpine
-    environment:
-      POSTGRES_DB: '${POSTGRES_DB}'
-      POSTGRES_USER: '${POSTGRES_USER}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./data/postgresql/:/var/lib/postgresql/data/
-    env_file:
-      - .env
-    restart: always
-
   cache:
     image: redis:7.0-alpine
     restart: always
@@ -23,22 +8,17 @@ services:
     volumes:
       - ./data/cache:/data
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - '5001:8080'
-    links:
-      - postgres
-
   bot:
     build: .
     ports:
       - '5000:5000'
     environment:
-      DB_HOST: postgres
       REDIS_HOST: cache
     restart: always
     links:
       - postgres
       - cache
+
+
+
+

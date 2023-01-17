@@ -6,6 +6,7 @@ from aiogram.dispatcher.storage import FSMContext
 from aiogram.types import ChatType, Message
 
 from api.services.inform_service import get_information_about
+from api.services.user_service import get_user_by_tg_id
 from keyboards.inline.all import button_information, callback_data_btn, who_worked_btn, check_confirm_data, cancel_btn
 from loader import dp
 from settings.message_templates import get_message_phone, check_message_phone, template_message_answer
@@ -16,6 +17,9 @@ from utils.logger import logger
 # Команда "Check"
 @dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), Command(commands='check'), state='*')
 async def check(message: Message, state: FSMContext):
+    user_data = await get_user_by_tg_id(message.from_user.id)
+    if user_data.role == 'manager':
+        return
     await state.reset_state(with_data=False)
     await message.answer(text=get_message_phone, reply_markup=cancel_btn)
     await Check.get_data_phone.set()
