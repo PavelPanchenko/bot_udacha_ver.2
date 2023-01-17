@@ -1,0 +1,17 @@
+.env
+.venv
+.idea/
+env/
+venv/
+ENV/
+.DS_Store
+test.py
+test.txt
+test.json
+users.db
+**__pycache__/
+**__pycache__
+.DS_Store/
+log.log
+data/phone_data/
+data/cache/

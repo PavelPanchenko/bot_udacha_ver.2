@@ -1,0 +1,1 @@
+from .command_photo_handler import dp
