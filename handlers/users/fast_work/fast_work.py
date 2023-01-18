@@ -17,8 +17,10 @@ async def _fast_work(call: CallbackQuery, callback_data: dict, state: FSMContext
     await state.reset_state(with_data=False)
 
     try:
-        await call.answer()
         user_data = await get_user_by_tg_id(call.message.chat.id)
+
+        if not user_data:
+            return await call.message.answer(text=not_user_data_mess)
 
         client_phone = callback_data.get('payload')
         await call.message.edit_text('Обработка данных.\nПодождите немного...')
@@ -50,3 +52,11 @@ async def get_info_client(user_data, client_phone):
         logger.warning(ex, exc_info=True)
 
     return result
+
+
+not_user_data_mess = """
+Что бы продолжить пользоваться ботом, 
+вам нужно повторно авторизоваться.
+Если не видите кнопку "LOG IN"
+Остановите бота и снова запустите.
+"""

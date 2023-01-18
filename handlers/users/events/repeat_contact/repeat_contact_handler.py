@@ -108,10 +108,11 @@ async def confirm_data(call: types.CallbackQuery, state: FSMContext):
             async with aiohttp.ClientSession() as session:
                 async with session.get(url=url, params=params) as response:
                     result = json.loads(await response.read())
+            print(result)
             return await call.message.answer(text=result[0]['MESSAGE'], reply_markup=error_events)
 
         except Exception as ex:
-            await call.message.answer("Cервер не отвечает. Попробуйте позже")
+            await call.message.answer('Ошибка на сервере. Попробуйте позже')
             logger.warning(ex, exc_info=True)
 
 

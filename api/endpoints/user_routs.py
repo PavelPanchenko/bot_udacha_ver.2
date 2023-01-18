@@ -40,7 +40,7 @@ async def create_event(data: NewEvent):
 
 
 message_template = """
-<i>На вас создано новое событие</i>:
+<b>На вас создано новое событие</b>:
 <code>Телефон</code>: {}
 <code>Клиент</code>: {}
 <code>Тип</code>: {}

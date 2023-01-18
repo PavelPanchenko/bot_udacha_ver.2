@@ -106,8 +106,6 @@ class InlineVillageButton:
 
         user_info = self._get_user_info(chat_id)
 
-        print(callback_data['action'])
-        print(Actions.PICK.name)
         if callback_data['action'] == Actions.PICK.name:
             return user_info.village_choice.append(
                 callback_data['data']) if data not in user_info.village_choice else user_info.village_choice.remove(

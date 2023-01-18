@@ -57,7 +57,7 @@ async def get_client_data(message: types.Message, state: FSMContext):
             reply_markup=client_button(user_data.role))
 
     except Exception as ex:
-        await message.answer("Ошибка на сервере... Попробуйте позже")
+        await message.answer("Ошибка на сервере. Попробуйте позже")
         logging.warning(ex, exc_info=True)
     finally:
         await state.reset_state(with_data=False)

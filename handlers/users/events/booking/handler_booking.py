@@ -15,6 +15,7 @@ from api.services.user_service import get_user_by_tg_id
 from keyboards.inline.all import button_information, callback_data_btn
 from loader import dp, bot
 from states.storage import Booking
+from utils.logger import logger
 from .buttons import post_or_edit
 
 
@@ -114,8 +115,8 @@ async def book_confirm(call: CallbackQuery, state: FSMContext):
             await call.message.answer(text=result[0]['MESSAGE'])
 
         except Exception as ex:
-            print(ex)
-            await call.answer('Ошибка на сервере. Попробуйте позже')
+            await call.message.answer('Ошибка на сервере. Попробуйте позже')
+            logger.error(ex, exc_info=True)
 
 
 async def get_params_string(data, user_data):

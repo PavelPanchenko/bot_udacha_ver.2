@@ -76,3 +76,10 @@ async def on_shutdown():
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=settings.PORT, use_colors=True)
 
+
+# 1. Подключил postgresql вместо sqlite3
+# Что изменилось:
+#   - Избавились от файла "data_phone" от которого были одни проблемы
+#   -
+# 2. Добавил кеширование
+

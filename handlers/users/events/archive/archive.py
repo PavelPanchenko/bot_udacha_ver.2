@@ -1,5 +1,4 @@
 import json
-import logging
 from datetime import datetime
 
 import aiohttp
@@ -16,6 +15,7 @@ from keyboards.inline.VillageButtonClass import InlineVillageButton
 from keyboards.inline.all import button_information, callback_data_btn, archive_post_or_edit
 from loader import dp, bot
 from states.storage import Archive
+from utils.logger import logger
 from ..repeat_contact.buttons import error_events
 
 inline_village = InlineVillageButton()
@@ -249,5 +249,5 @@ async def book_confirm(call: CallbackQuery, state: FSMContext):
         await state.reset_state(with_data=False)
 
     except Exception as ex:
-        logging.warning(ex)
         await call.message.answer('Ошибка на сервере. Попробуйте позже')
+        logger.error(ex, exc_info=True)
