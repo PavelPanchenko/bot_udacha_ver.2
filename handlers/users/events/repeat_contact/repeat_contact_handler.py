@@ -100,7 +100,7 @@ async def confirm_data(call: types.CallbackQuery, state: FSMContext):
             'MANAGER_PHONE': user_data.phone_number,
             'NEXT_CONTACT_DATE': str(data["date_rc"]) + "T00:00:00",
             'CONTACT_REASONS': str([data["cause_contact_id"]]),
-            'SITES': str(random_village.GUID),
+            'SITES': str([random_village.GUID]),
             'COMMENT': data["comment"]
         }
         await call.message.edit_text('Обработка данных.\nПодождите немного...')
@@ -108,7 +108,6 @@ async def confirm_data(call: types.CallbackQuery, state: FSMContext):
             async with aiohttp.ClientSession() as session:
                 async with session.get(url=url, params=params) as response:
                     result = json.loads(await response.read())
-            print(result)
             return await call.message.answer(text=result[0]["MESSAGE"], reply_markup=error_events)
 
         except Exception as ex:
