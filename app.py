@@ -1,18 +1,16 @@
 import sqlalchemy
 import uvicorn as uvicorn
-from aiogram import Dispatcher, Bot
-from aiogram.types import Update
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 import middlewares
 from api.database.models import database, DATABASE_URL, metadata
+from api.endpoints.bot_routs import bot_rout
 from api.endpoints.user_routs import user_rout
 from api.services.inform_service import get_information
 from loader import bot, dp
 from settings.config import settings
 from settings.notify_admins import on_startup_notify
-from utils.logger import logger
 import handlers
 
 engine = sqlalchemy.create_engine(DATABASE_URL)
@@ -21,6 +19,7 @@ metadata.create_all(engine)
 app = FastAPI()
 app.state.database = database
 
+app.include_router(bot_rout)
 app.include_router(user_rout)
 
 WEBHOOK_PATH = f'/bot/{settings.BOT_TOKEN}'
@@ -50,17 +49,6 @@ async def on_startup():
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
-
-@app.post('/bot/{BOT_TOKEN}')
-async def bot_webhook(update: dict):
-    try:
-        telegram_update = Update(**update)
-        Dispatcher.set_current(dp)
-        Bot.set_current(bot)
-        await dp.process_update(telegram_update)
-    except Exception as ex:
-        logger.warning(ex)
 
 
 @app.on_event('shutdown')
