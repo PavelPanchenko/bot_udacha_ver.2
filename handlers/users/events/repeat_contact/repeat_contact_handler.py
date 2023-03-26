@@ -18,19 +18,21 @@ from states.storage import RepeatContact
 from utils.logger import logger
 from .buttons import post_or_edit, error_events
 
+simpleCalendar = SimpleCalendar()
+
 
 @dp.callback_query_handler(text='repeat_contact', state='*')
 async def repeat_contact(call: types.CallbackQuery, state: FSMContext):
     await state.reset_state(with_data=False)
     await call.message.answer(
-        text='Выберите дату следующего контакта', reply_markup=await SimpleCalendar().start_calendar())
+        text='Выберите дату следующего контакта', reply_markup=await simpleCalendar.start_calendar())
 
 
 @dp.callback_query_handler(simple_cal_callback.filter())
 async def calendar_callback_handler(callback_query: CallbackQuery, callback_data: CallbackData, state: FSMContext):
     await bot.answer_callback_query(callback_query.id)
 
-    selected, date = await SimpleCalendar().process_selection(callback_query, callback_data)
+    selected, date = await simpleCalendar.process_selection(callback_query, callback_data)
 
     if selected:
         try:

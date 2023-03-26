@@ -18,6 +18,8 @@ from states.storage import Booking
 from utils.logger import logger
 from .buttons import post_or_edit
 
+simpleCalendar = SimpleCalendar()
+
 
 @dp.callback_query_handler(text='booking', state='*')
 async def booking_func(call: CallbackQuery):
@@ -54,7 +56,7 @@ async def book_status(call: types.CallbackQuery, callback_data: dict, state: FSM
     await bot.answer_callback_query(call.id)
 
     await state.update_data(book_status=callback_data.get('payload'))
-    await call.message.answer('Плановая дата сделки:', reply_markup=await SimpleCalendar().start_calendar())
+    await call.message.answer('Плановая дата сделки:', reply_markup=await simpleCalendar.start_calendar())
     await state.set_state('get_booking_date')
 
 
@@ -63,7 +65,7 @@ async def calendar_callback_handler(call: CallbackQuery, callback_data: Callback
     await bot.answer_callback_query(call.id)
     await state.reset_state(with_data=False)
 
-    selected, date = await SimpleCalendar().process_selection(call, callback_data)
+    selected, date = await simpleCalendar.process_selection(call, callback_data)
 
     if selected:
         await state.update_data(book_date=datetime.strftime(date, '%Y-%m-%d'))

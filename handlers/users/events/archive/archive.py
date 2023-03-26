@@ -20,6 +20,7 @@ from ..repeat_contact.buttons import error_events
 
 inline_village = InlineVillageButton()
 inline_direction = InlineVillageButton()
+simpleCalendar = SimpleCalendar()
 
 
 @dp.callback_query_handler(ChatTypeFilter(ChatType.PRIVATE), text='archive', state='*')
@@ -135,7 +136,7 @@ async def sleep_client(call: CallbackQuery, callback_data: dict, state: FSMConte
     choice_archive_name = ' ,'.join(
         [i.NAME for i in await get_information_about('ASLIPE_REASONS') if i.GUID == payload])
     await state.update_data(status_aspile={'name': choice_archive_name, 'guid': payload})
-    await call.message.edit_text('Дата последнего созвона:', reply_markup=await SimpleCalendar().start_calendar())
+    await call.message.edit_text('Дата последнего созвона:', reply_markup=await simpleCalendar.start_calendar())
     await Archive.calendar.set()
 
 
@@ -143,7 +144,7 @@ async def sleep_client(call: CallbackQuery, callback_data: dict, state: FSMConte
 async def calendar_callback_handler(call: CallbackQuery, callback_data: CallbackData, state: FSMContext):
     await bot.answer_callback_query(call.id)
 
-    selected, date = await SimpleCalendar().process_selection(call, callback_data)
+    selected, date = await simpleCalendar.process_selection(call, callback_data)
 
     if selected:
         await state.update_data(archive_date=datetime.strftime(date, '%Y-%m-%d'))

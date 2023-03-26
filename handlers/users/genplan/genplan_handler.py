@@ -26,16 +26,17 @@ async def gen_plan(message: Message, state: FSMContext):
 
 @dp.callback_query_handler(callback_data_btn.filter(action='get_plan'))
 async def gen_plan_village(call: CallbackQuery, callback_data: dict, state: FSMContext):
-    village = callback_data.get('payload').strip().title()
+    village = str(callback_data.get('payload').strip().title())
     time = datetime.now().timestamp()
 
     await call.message.answer_chat_action(action=ChatActions.TYPING)
-    url = f'https://www.ydacha.ru/poselki/print.php?vill={village}&time={time}&view=y'
+    base_url = 'https://www.ydacha.ru/poselki/print.php'
+    url_params = {'vill': village, 'time': time, 'view': 'y'}
     await call.message.edit_text('Обработка данных.\nПодождите немного...')
     try:
-        print(url)
-        file_content = requests.get(url).content
-        await call.message.answer_document(document=(f'{village}.pdf', BytesIO(file_content)))
+        response = requests.get(base_url, params=url_params)
+        print(response.url)
+        await call.message.answer_document(document=(f'{village}.pdf', BytesIO(response.content)))
 
     except Exception as ex:
         await call.message.answer(text=f'Файл {village} не найден.')
