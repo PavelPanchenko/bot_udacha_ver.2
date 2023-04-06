@@ -8,6 +8,7 @@ from .events import dp
 from .client import dp
 from .photo import dp
 from .price import dp
+from .kp import dp
 from .admin import dp
 from .fast_work import dp
 

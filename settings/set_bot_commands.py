@@ -13,6 +13,7 @@ async def set_auth_commands(user_role, user_id):
                 BotCommand('price', 'Прайс'),
                 BotCommand('genplan', 'Генплан'),
                 BotCommand('photo', 'Фото'),
+                BotCommand('kp', 'КП все посёлки')
             ],
             scope=BotCommandScopeChat(chat_id=user_id)
         )
@@ -24,6 +25,8 @@ async def set_auth_commands(user_role, user_id):
                 BotCommand('price', 'Прайс'),
                 BotCommand('genplan', 'Генплан'),
                 BotCommand('photo', 'Фото'),
+                BotCommand('kp', 'КП все посёлки')
+
             ],
             scope=BotCommandScopeChat(chat_id=user_id)
         )
@@ -36,6 +39,7 @@ async def set_auth_commands(user_role, user_id):
                 BotCommand('price', 'Прайс'),
                 BotCommand('genplan', 'Генплан'),
                 BotCommand('photo', 'Фото'),
+                BotCommand('kp', 'КП все посёлки'),
                 BotCommand('send', 'Отправить уведомление')
             ],
             scope=BotCommandScopeChat(chat_id=user_id)
