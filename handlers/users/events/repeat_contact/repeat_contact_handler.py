@@ -25,7 +25,10 @@ simpleCalendar = SimpleCalendar()
 async def repeat_contact(call: types.CallbackQuery, state: FSMContext):
     await state.reset_state(with_data=False)
     await call.message.answer(
-        text='Выберите дату следующего контакта', reply_markup=await simpleCalendar.start_calendar())
+        text='Выберите дату следующего контакта', reply_markup=await simpleCalendar.start_calendar(
+            year=datetime.now().year,
+            month=datetime.now().month
+        ))
 
 
 @dp.callback_query_handler(simple_cal_callback.filter())

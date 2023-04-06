@@ -136,7 +136,10 @@ async def sleep_client(call: CallbackQuery, callback_data: dict, state: FSMConte
     choice_archive_name = ' ,'.join(
         [i.NAME for i in await get_information_about('ASLIPE_REASONS') if i.GUID == payload])
     await state.update_data(status_aspile={'name': choice_archive_name, 'guid': payload})
-    await call.message.edit_text('Дата последнего созвона:', reply_markup=await simpleCalendar.start_calendar())
+    await call.message.edit_text('Дата последнего созвона:', reply_markup=await simpleCalendar.start_calendar(
+        year=datetime.now().year,
+        month=datetime.now().month
+    ))
     await Archive.calendar.set()
 
 

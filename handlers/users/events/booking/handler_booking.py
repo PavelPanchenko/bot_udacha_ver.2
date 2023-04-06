@@ -56,7 +56,10 @@ async def book_status(call: types.CallbackQuery, callback_data: dict, state: FSM
     await bot.answer_callback_query(call.id)
 
     await state.update_data(book_status=callback_data.get('payload'))
-    await call.message.answer('Плановая дата сделки:', reply_markup=await simpleCalendar.start_calendar())
+    await call.message.answer('Плановая дата сделки:', reply_markup=await simpleCalendar.start_calendar(
+        year=datetime.now().year,
+        month=datetime.now().month
+    ))
     await state.set_state('get_booking_date')
 
 
