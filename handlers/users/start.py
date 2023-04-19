@@ -10,9 +10,9 @@ from loader import dp, bot
 
 @dp.message_handler(ChatTypeFilter(ChatType.PRIVATE), CommandStart(), state='*')
 async def bot_start(message: Message, state: FSMContext):
-    print(await state.get_state())
-    await message.delete()
     await state.reset_state(with_data=False)
+
+    await message.delete()
 
     # user_data = await state.get_data()
     user_data = await get_user_by_tg_id(message.chat.id)

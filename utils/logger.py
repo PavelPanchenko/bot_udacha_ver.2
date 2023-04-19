@@ -14,5 +14,5 @@ logger = logging.getLogger(__name__)
 logger.setLevel(LOG_LEVEL)
 logger.addHandler(stream)
 
-logging.basicConfig(filename='log.log', filemode='w')
+logging.basicConfig(filename='log.log', filemode='a')
 
